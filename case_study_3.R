@@ -2,8 +2,8 @@
 
 library(SensusR)
 
-data = sensus.read.json('./sample')
+accelerometer = sensus.read.json('./sys6018_cs3_data/AccelerometerDatum')
 
-for (i in 1:length(data)){
-  assign(paste0("dataframe-", i), as.data.frame(data[i]))
+for (i in 1:length(accelerometer)){
+  assign(paste0("accelerometer-", i), as.data.frame(data[i]))
 }
