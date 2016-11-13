@@ -26,3 +26,21 @@ contact <- rename(contact, c('MicrosoftBandContactDatum.DeviceId' = 'ID',
                              'MicrosoftBandContactDatum.State' = 'State'))
 
 connected <- subset(contact, State == 2)
+
+
+heartrate <- MicrosoftBandHeartRateDatum
+
+keep_hr <- c('MicrosoftBandHeartRateDatum.HeartRate',
+                   'MicrosoftBandHeartRateDatum.Timestamp',
+                   'MicrosoftBandHeartRateDatum.DeviceId')
+
+heartrate <- heartrate[keep_hr]
+
+heartrate <- rename(heartrate, c('MicrosoftBandHeartRateDatum.DeviceId' = 'ID',
+                             'MicrosoftBandHeartRateDatum.Timestamp' = 'Time',
+                             'MicrosoftBandHeartRateDatum.HeartRate' = 'Rate'))
+
+
+merged <- merge(heartrate, connected, by = c('ID', 'Time'))
+
+merged <- subset(merged, abs(as.numeric('Time.y') - as.numeric('Time.x')) < 10000)
