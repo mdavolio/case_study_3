@@ -13,7 +13,8 @@ survey <- rename(survey, c('ScriptDatum.ScriptName' = 'question','ScriptDatum.Re
                  'ScriptDatum.Latitude' = 'lat', 'ScriptDatum.Longitude' = 'long',
                  'ScriptDatum.DeviceId' = 'ID','ScriptDatum.Timestamp' = 'Time'))
 
-stress <- subset(survey, question == 'Fatigue and Stress', 'ID' != 'A3D42651-5E3B-4459-AC8A-44B917A9C715')
+survey <- subset(survey, survey$question=='Fatigue and Stress')
+stress <- survey[survey$ID != 'A3D42651-5E3B-4459-AC8A-44B917A9C715',]
 
 # Contact Data **********************************
 contact <- MicrosoftBandContactDatum
@@ -30,6 +31,8 @@ contact <- rename(contact, c('MicrosoftBandContactDatum.DeviceId' = 'ID',
                              'MicrosoftBandContactDatum.State' = 'State'))
 
 connected <- subset(contact, State == 2)
+
+connected <- connected[connected$ID != 'A3D42651-5E3B-4459-AC8A-44B917A9C715',]
 
 # Heart Rate Data ***********************************
 heartrate <- MicrosoftBandHeartRateDatum
@@ -49,6 +52,8 @@ heartrate <- rename(heartrate, c('MicrosoftBandHeartRateDatum.DeviceId' = 'ID',
 
 merged_hr <- merge(heartrate, connected, by = c('ID', 'Time'))
 
+merged_hr <- merged_hr[merged_hr$ID != 'A3D42651-5E3B-4459-AC8A-44B917A9C715',]
+
 # GSR Data **********************************************
 
 gsr <- MicrosoftBandGsrDatum
@@ -67,6 +72,8 @@ gsr <- rename(gsr, c('MicrosoftBandGsrDatum.DeviceId' = 'ID',
 
 
 merged_gsr <- merge(gsr, connected, by = c('ID', 'Time'))
+
+merged_gsr <- merged_gsr[merged_gsr$ID != 'A3D42651-5E3B-4459-AC8A-44B917A9C715',]
 
 # Accel Data **********************************************
 
@@ -112,6 +119,8 @@ distance <- rename(distance, c('MicrosoftBandDistanceDatum.TotalDistance' = 'dis
 
 merged_distance <- merge(distance, connected, by = c('ID', 'Time'))
 
+merged_distance <- merged_distance[merged_distance$ID != 'A3D42651-5E3B-4459-AC8A-44B917A9C715',]
+
 ####Steps Ascended Data *********************************
 steps_ascended<- MicrosoftBandStepDatum
 
@@ -126,6 +135,7 @@ steps_ascended<- steps_ascended[keep_steps_ascended]
 steps_ascended<- rename(steps_ascended, c('MicrosoftBandStepDatum.DeviceId' = 'ID',
                                           'MicrosoftBandStepDatum.Timestamp' = 'Time',
                                           'MicrosoftBandStepDatum.StepsAscended' = 'Steps'))
+
 merged_steps_ascended<- merge(steps_ascended, connected, by = c('ID', 'Time'))
 
 ###Steps Taken *********************************
@@ -143,3 +153,5 @@ total_steps<- rename(total_steps, c('MicrosoftBandPedometerDatum.DeviceId' = 'ID
                                     'MicrosoftBandPedometerDatum.Timestamp' = 'Time',
                                     'MicrosoftBandPedometerDatum.TotalSteps' = 'TotalSteps'))
 merged_total_steps<- merge(total_steps, connected, by = c('ID', 'Time'))
+
+merged_total_steps <- merged_total_steps[merged_total_steps$ID != 'A3D42651-5E3B-4459-AC8A-44B917A9C715',]
