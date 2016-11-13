@@ -17,6 +17,7 @@ survey <- rename(survey, c('ScriptDatum.ScriptName' = 'question','ScriptDatum.Re
                  'ScriptDatum.DeviceId' = 'ID','ScriptDatum.Timestamp' = 'Time'))
 
 survey <- subset(survey, survey$question=='Fatigue and Stress')
+
 stress <- survey[survey$ID != 'A3D42651-5E3B-4459-AC8A-44B917A9C715',]
 
 
@@ -83,24 +84,26 @@ merged_gsr <- merged_gsr[merged_gsr$ID != 'A3D42651-5E3B-4459-AC8A-44B917A9C715'
 
 accel <- AccelerometerDatum
 
-accel <- accel[accel$MicrosoftBandAccelerometerDatum.Month == 11,]
+accel <- accel[accel$AccelerometerDatum.Month == 11,]
 
-keep_accel <- c('MicrosoftBandAccelerometerDatum.X',
-              'MicrosoftBandAccelerometerDatum.Y',
-              'MicrosoftBandAccelerometerDatum.Z',
-              'MicrosoftBandAccelerometerDatum.DeviceId',
-              'MicrosoftBandAccelerometerDatum.Timestamp')
+keep_accel <- c('AccelerometerDatum.X',
+              'AccelerometerDatum.Y',
+              'AccelerometerDatum.Z',
+              'AccelerometerDatum.DeviceId',
+              'AccelerometerDatum.Timestamp')
 
 accel <- accel[keep_accel]
 
-accel <- rename(accel, c('MicrosoftBandAccelerometerDatum.X' = 'X',
-                       'MicrosoftBandAccelerometerDatum.Y' = 'Y',
-                       'MicrosoftBandAccelerometerDatum.Z' = 'Z',
-                       'MicrosoftBandAccelerometerDatum.DeviceId' = 'ID',
-                       'MicrosoftBandAccelerometerDatum.Timestamp' = 'Time'))
+accel <- rename(accel, c('AccelerometerDatum.X' = 'X',
+                       'AccelerometerDatum.Y' = 'Y',
+                       'AccelerometerDatum.Z' = 'Z',
+                       'AccelerometerDatum.DeviceId' = 'ID',
+                       'AccelerometerDatum.Timestamp' = 'Time'))
 
 
 merged_accel <- merge(accel, connected, by = c('ID', 'Time'))
+
+merged_accel <- merged_accel[merged_accel$ID != 'A3D42651-5E3B-4459-AC8A-44B917A9C715',]
 
 # Distance Data **********************************************
 
@@ -141,6 +144,8 @@ steps_ascended<- rename(steps_ascended, c('MicrosoftBandStepDatum.DeviceId' = 'I
                                           'MicrosoftBandStepDatum.StepsAscended' = 'Steps'))
 
 merged_steps_ascended<- merge(steps_ascended, connected, by = c('ID', 'Time'))
+
+merged_steps_ascended <- merged_steps_ascended[merged_steps_ascended$ID != 'A3D42651-5E3B-4459-AC8A-44B917A9C715',]
 
 ###Steps Taken *********************************
 total_steps<- MicrosoftBandPedometerDatum
