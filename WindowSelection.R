@@ -135,3 +135,22 @@ for (i in 1:nrow(stress)) {
   }
   stress$AverageGSR1[i] = total/count
 }
+
+#24 Hour Window Total Steps
+
+for (i in 1:nrow(stress)) {
+  count=0
+  total = 0
+  endtime = as.numeric(stress$Time[i])
+  begintime = as.numeric(stress$Time[i]) - (3600*24)
+  id = stress$ID[i]
+  for(j in 1:nrow(merged_total_steps)){
+    if(merged_total_steps$ID[j]==id){
+      if(begintime < as.numeric(merged_total_steps$Time[j])
+         & as.numeric(merged_total_steps$Time[j])< endtime)
+        total = total + merged_total_steps$TotalSteps
+      count = count +1
+    }
+  }
+  stress$AverageTotalSteps24[i] = total/count
+}
