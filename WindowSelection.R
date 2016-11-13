@@ -5,7 +5,7 @@ for (i in 1:nrow(stress)) {
   count=0
   endtime = as.numeric(stress$Time[i])
   begintime = as.numeric(stress$Time[i]) - 3600
-  id = stress$ScriptDatum.DeviceId[i]
+  id = stress$ID[i]
   for(j in 1:nrow(connected)){
     if(connected$ID[j]==id){
       if(begintime < as.numeric(connected$Time[j])
@@ -25,7 +25,7 @@ for (i in 1:nrow(stress)) {
   count=0
   endtime = as.numeric(stress$Time[i])
   begintime = as.numeric(stress$Time[i]) - (3600*2)
-  id = stress$ScriptDatum.DeviceId[i]
+  id = stress$ID[i]
   for(j in 1:nrow(connected)){
     if(connected$ID[j]==id){
       if(begintime < as.numeric(connected$Time[j])
@@ -45,7 +45,7 @@ for (i in 1:nrow(stress)) {
   count=0
   endtime = as.numeric(stress$Time[i])
   begintime = as.numeric(stress$Time[i]) - (3600*3)
-  id = stress$ScriptDatum.DeviceId[i]
+  id = stress$ID[i]
   for(j in 1:nrow(connected)){
     if(connected$ID[j]==id){
       if(begintime < as.numeric(connected$Time[j])
@@ -65,7 +65,7 @@ for (i in 1:nrow(stress)) {
   count=0
   endtime = as.numeric(stress$Time[i])
   begintime = as.numeric(stress$Time[i]) - (3600*24)
-  id = stress$ScriptDatum.DeviceId[i]
+  id = stress$ID[i]
   for(j in 1:nrow(connected)){
     if(connected$ID[j]==id){
       if(begintime < as.numeric(connected$Time[j])
