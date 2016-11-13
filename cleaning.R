@@ -128,6 +128,68 @@ merged_distance <- merge(distance, connected, by = c('ID', 'Time'))
 
 merged_distance <- merged_distance[merged_distance$ID != 'A3D42651-5E3B-4459-AC8A-44B917A9C715',]
 
+
+#24 Hour Window GSR
+
+for (i in 1:nrow(stress)) {
+  count=0
+  total = 0
+  endtime = as.numeric(stress$Time[i])
+  begintime = as.numeric(stress$Time[i]) - (3600*24)
+  id = stress$ID[i]
+  for(j in 1:nrow(merged_distance)){
+    if(merged_distance$ID[j]==id){
+      if(begintime < as.numeric(merged_distance$Time[j])
+         & as.numeric(merged_distance$Time[j])< endtime)
+        total = total + merged_distance$distance
+      count = count +1
+    }
+  }
+  stress$AverageDistance24[i] = total/count
+}
+
+
+
+#3 Hour Window GSR
+
+for (i in 1:nrow(stress)) {
+  count=0
+  total = 0
+  endtime = as.numeric(stress$Time[i])
+  begintime = as.numeric(stress$Time[i]) - (3600*3)
+  id = stress$ID[i]
+  for(j in 1:nrow(merged_distance)){
+    if(merged_distance$ID[j]==id){
+      if(begintime < as.numeric(merged_distance$Time[j])
+         & as.numeric(merged_distance$Time[j])< endtime)
+        total = total + merged_distance$distance
+      count = count +1
+    }
+  }
+  stress$AverageDistance3[i] = total/count
+}
+
+#1 Hour Window GSR
+
+for (i in 1:nrow(stress)) {
+  count=0
+  total = 0
+  endtime = as.numeric(stress$Time[i])
+  begintime = as.numeric(stress$Time[i]) - (3600*1)
+  id = stress$ID[i]
+  for(j in 1:nrow(merged_distance)){
+    if(merged_distance$ID[j]==id){
+      if(begintime < as.numeric(merged_distance$Time[j])
+         & as.numeric(merged_distance$Time[j])< endtime)
+        total = total + merged_distance$distance
+      count = count +1
+    }
+  }
+  stress$AverageDistance1[i] = total/count
+}
+
+
+
 ####Steps Ascended Data *********************************
 steps_ascended<- MicrosoftBandStepDatum
 
