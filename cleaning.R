@@ -34,6 +34,8 @@ connected <- subset(contact, State == 2)
 # Heart Rate Data ***********************************
 heartrate <- MicrosoftBandHeartRateDatum
 
+heartrate <- heartrate[heartrate$MicrosoftBandHeartRateDatum.Month == 11,]
+
 keep_hr <- c('MicrosoftBandHeartRateDatum.HeartRate',
                    'MicrosoftBandHeartRateDatum.Timestamp',
                    'MicrosoftBandHeartRateDatum.DeviceId')
@@ -51,6 +53,8 @@ merged_hr <- merge(heartrate, connected, by = c('ID', 'Time'))
 
 gsr <- MicrosoftBandGsrDatum
 
+gsr <- gsr[gsr$MicrosoftBandGsrDatum.Month == 11,]
+
 keep_gsr <- c('MicrosoftBandGsrDatum.Resistance',
              'MicrosoftBandGsrDatum.Timestamp',
              'MicrosoftBandGsrDatum.DeviceId')
@@ -67,6 +71,8 @@ merged_gsr <- merge(gsr, connected, by = c('ID', 'Time'))
 # Accel Data **********************************************
 
 accel <- MicrosoftBandAccelerometerDatum
+
+accel <- accel[accel$MicrosoftBandAccelerometerDatum.Month == 11,]
 
 keep_accel <- c('MicrosoftBandAccelerometerDatum.X',
               'MicrosoftBandAccelerometerDatum.Y',
@@ -89,6 +95,8 @@ merged_accel <- merge(accel, connected, by = c('ID', 'Time'))
 
 distance <- MicrosoftBandDistanceDatum
 
+distance <- distance[distance$MicrosoftBandDistanceDatum.Month == 11,]
+
 keep_distance <- c('MicrosoftBandDistanceDatum.TotalDistance',
                    'MicrosoftBandDistanceDatum.MotionType',
                    'MicrosoftBandDistanceDatum.DeviceId',
@@ -107,6 +115,8 @@ merged_distance <- merge(distance, connected, by = c('ID', 'Time'))
 ####Steps Ascended Data *********************************
 steps_ascended<- MicrosoftBandStepDatum
 
+steps_ascended <- steps_ascended[steps_ascended$MicrosoftBandStepDatum.Month == 11,]
+
 keep_steps_ascended<- c('MicrosoftBandStepDatum.StepsAscended',
                         'MicrosoftBandStepDatum.Timestamp',
                         'MicrosoftBandStepDatum.DeviceId')
@@ -120,6 +130,8 @@ merged_steps_ascended<- merge(steps_ascended, connected, by = c('ID', 'Time'))
 
 ###Steps Taken Temp *********************************
 total_steps<- MicrosoftBandPedometerDatum
+
+total_steps <- total_steps[total_steps$MicrosoftBandPedometerDatum.Month == 11,]
 
 keep_total_steps<- c('MicrosoftBandPedometerDatum.TotalSteps',
                      'MicrosoftBandPedometerDatum.Timestamp',
