@@ -101,3 +101,31 @@ distance <- rename(distance, c('MicrosoftBandDistanceDatum.TotalDistance' = 'dis
 
 
 merged_distance <- merge(distance, connected, by = c('ID', 'Time'))
+
+####Steps Ascended Data *********************************
+steps_ascended<- MicrosoftBandStepDatum
+
+keep_steps_ascended<- c('MicrosoftBandStepDatum.StepsAscended',
+                        'MicrosoftBandStepDatum.Timestamp',
+                        'MicrosoftBandStepDatum.DeviceId')
+
+steps_ascended<- steps_ascended[keep_steps_ascended]
+
+steps_ascended<- rename(steps_ascended, c('MicrosoftBandStepDatum.DeviceId' = 'ID',
+                                          'MicrosoftBandStepDatum.Timestamp' = 'Time',
+                                          'MicrosoftBandStepDatum.StepsAscended' = 'Steps'))
+merged_steps_ascended<- merge(steps_ascended, connected, by = c('ID', 'Time'))
+
+###Steps Taken Temp *********************************
+total_steps<- MicrosoftBandPedometerDatum
+
+keep_total_steps<- c('MicrosoftBandPedometerDatum.TotalSteps',
+                     'MicrosoftBandPedometerDatum.Timestamp',
+                     'MicrosoftBandPedometerDatum.DeviceId')
+
+total_steps<- total_steps[keep_total_steps]
+
+total_steps<- rename(total_steps, c('MicrosoftBandPedometerDatum.DeviceId' = 'ID',
+                                    'MicrosoftBandPedometerDatum.Timestamp' = 'Time',
+                                    'MicrosoftBandPedometerDatum.TotalSteps' = 'TotalSteps'))
+merged_total_steps<- merge(total_steps, connected, by = c('ID', 'Time'))
