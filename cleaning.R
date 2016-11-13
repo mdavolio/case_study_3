@@ -15,7 +15,7 @@ survey <- rename(survey, c('ScriptDatum.ScriptName' = 'question','ScriptDatum.Re
 
 stress <- subset(survey, question == 'Fatigue and Stress', 'ID' != 'A3D42651-5E3B-4459-AC8A-44B917A9C715')
 
-# Contactact Data **********************************
+# Contact Data **********************************
 contact <- MicrosoftBandContactDatum
 
 keep_contact <- c('MicrosoftBandContactDatum.DeviceId','MicrosoftBandContactDatum.Timestamp',
