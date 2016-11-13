@@ -11,3 +11,5 @@ survey <- survey[keep]
 survey <- rename(survey, c('ScriptDatum.ScriptName' = 'question','ScriptDatum.Response' = 'response',
                  'ScriptDatum.Latitude' = 'lat', 'ScriptDatum.Longitude' = 'long',
                  'ScriptDatum.DeviceId' = 'ID','ScriptDatum.Timestamp' = 'Time'))
+
+stress <- subset(survey, question == 'Fatigue and Stress')
