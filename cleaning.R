@@ -45,4 +45,20 @@ heartrate <- rename(heartrate, c('MicrosoftBandHeartRateDatum.DeviceId' = 'ID',
 
 merged_hr <- merge(heartrate, connected, by = c('ID', 'Time'))
 
+# GSR Data **********************************************
+
+gsr <- MicrosoftBandGsrDatum
+
+keep_gsr <- c('MicrosoftBandGsrDatum.Resistance',
+             'MicrosoftBandGsrDatum.Timestamp',
+             'MicrosoftBandGsrDatum.DeviceId')
+
+gsr <- gsr[keep_gsr]
+
+gsr <- rename(gsr, c('MicrosoftBandGsrDatum.DeviceId' = 'ID',
+                     'MicrosoftBandGsrDatum.Timestamp' = 'Time',
+                     'MicrosoftBandGsrDatum.Resistance' = 'Rate'))
+
+
+merged_gsr <- merge(gsr, connected, by = c('ID', 'Time'))
 
