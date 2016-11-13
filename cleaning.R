@@ -128,7 +128,7 @@ steps_ascended<- rename(steps_ascended, c('MicrosoftBandStepDatum.DeviceId' = 'I
                                           'MicrosoftBandStepDatum.StepsAscended' = 'Steps'))
 merged_steps_ascended<- merge(steps_ascended, connected, by = c('ID', 'Time'))
 
-###Steps Taken Temp *********************************
+###Steps Taken *********************************
 total_steps<- MicrosoftBandPedometerDatum
 
 total_steps <- total_steps[total_steps$MicrosoftBandPedometerDatum.Month == 11,]
