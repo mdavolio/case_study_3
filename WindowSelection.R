@@ -78,3 +78,60 @@ for (i in 1:nrow(stress)) {
 
 sum(count.list==0) 
 #41/71 zeros with window = 24 hours 
+
+#24 Hour Window GSR
+
+for (i in 1:nrow(stress)) {
+  count=0
+  total = 0
+  endtime = as.numeric(stress$Time[i])
+  begintime = as.numeric(stress$Time[i]) - (3600*24)
+  id = stress$ID[i]
+  for(j in 1:nrow(merged_gsr)){
+    if(merged_gsr$ID[j]==id){
+      if(begintime < as.numeric(merged_gsr$Time[j])
+         & as.numeric(merged_gsr$Time[j])< endtime)
+        total = total + merged_gsr$Rate
+        count = count +1
+    }
+  }
+  stress$AverageGSR24[i] = total/count
+}
+
+#3 Hour Window GSR
+
+for (i in 1:nrow(stress)) {
+  count=0
+  total = 0
+  endtime = as.numeric(stress$Time[i])
+  begintime = as.numeric(stress$Time[i]) - (3600*3)
+  id = stress$ID[i]
+  for(j in 1:nrow(merged_gsr)){
+    if(merged_gsr$ID[j]==id){
+      if(begintime < as.numeric(merged_gsr$Time[j])
+         & as.numeric(merged_gsr$Time[j])< endtime)
+        total = total + merged_gsr$Rate
+      count = count +1
+    }
+  }
+  stress$AverageGSR3[i] = total/count
+}
+
+#1 Hour Window GSR
+
+for (i in 1:nrow(stress)) {
+  count=0
+  total = 0
+  endtime = as.numeric(stress$Time[i])
+  begintime = as.numeric(stress$Time[i]) - (3600*1)
+  id = stress$ID[i]
+  for(j in 1:nrow(merged_gsr)){
+    if(merged_gsr$ID[j]==id){
+      if(begintime < as.numeric(merged_gsr$Time[j])
+         & as.numeric(merged_gsr$Time[j])< endtime)
+        total = total + merged_gsr$Rate
+      count = count +1
+    }
+  }
+  stress$AverageGSR1[i] = total/count
+}
