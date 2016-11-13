@@ -5,8 +5,11 @@ library(plyr)
 # Survey *******************************************
 survey <- ScriptDatum
 
+survey <- survey[survey$ScriptDatum.InputId != 'bf5df24b-696d-48f0-80df-b7757ca4585a',]
+
 keep_survey <- c('ScriptDatum.ScriptName','ScriptDatum.Response','ScriptDatum.Latitude',
          'ScriptDatum.Longitude','ScriptDatum.DeviceId','ScriptDatum.Timestamp')
+
 survey <- survey[keep_survey]
 
 survey <- rename(survey, c('ScriptDatum.ScriptName' = 'question','ScriptDatum.Response' = 'response',
@@ -15,6 +18,7 @@ survey <- rename(survey, c('ScriptDatum.ScriptName' = 'question','ScriptDatum.Re
 
 survey <- subset(survey, survey$question=='Fatigue and Stress')
 stress <- survey[survey$ID != 'A3D42651-5E3B-4459-AC8A-44B917A9C715',]
+
 
 # Contact Data **********************************
 contact <- MicrosoftBandContactDatum
@@ -77,7 +81,7 @@ merged_gsr <- merged_gsr[merged_gsr$ID != 'A3D42651-5E3B-4459-AC8A-44B917A9C715'
 
 # Accel Data **********************************************
 
-accel <- MicrosoftBandAccelerometerDatum
+accel <- AccelerometerDatum
 
 accel <- accel[accel$MicrosoftBandAccelerometerDatum.Month == 11,]
 
