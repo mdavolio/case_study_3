@@ -8,3 +8,16 @@ for( i in 1:length(folders)){
 }
 
 
+Stress_response<- ScriptDatum[ScriptDatum$ScriptDatum.ScriptName == 'Fatigue and Stress',]
+Stress_response$ScriptDatum.Timestamp<-as.numeric(Stress_response$ScriptDatum.Timestamp)
+
+Stress_response$ScriptDatum.Timestamp[1]
+band.contact.filtered = subset(MicrosoftBandContactDatum, MicrosoftBandContactDatum.State ==2)
+
+i = 0
+j= 0
+count<- []
+for (i in 1:nrow(Stress_response)) {
+  endtime = Stress_response$ScriptDatum.Timestamp[i]
+  begintime = Stress_response$ScriptDatum.Timestamp[i] - 360
+}
