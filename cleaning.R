@@ -20,6 +20,7 @@ survey <- subset(survey, survey$question=='Fatigue and Stress')
 
 stress <- survey[survey$ID != 'A3D42651-5E3B-4459-AC8A-44B917A9C715',]
 
+stress$stressed <- as.numeric(stress$response >=4)
 
 # Contact Data **********************************
 contact <- MicrosoftBandContactDatum
