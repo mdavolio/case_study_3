@@ -2,6 +2,7 @@
 
 library(plyr)
 
+# Survey *******************************************
 survey <- ScriptDatum
 
 keep_survey <- c('ScriptDatum.ScriptName','ScriptDatum.Response','ScriptDatum.Latitude',
@@ -14,6 +15,7 @@ survey <- rename(survey, c('ScriptDatum.ScriptName' = 'question','ScriptDatum.Re
 
 stress <- subset(survey, question == 'Fatigue and Stress')
 
+# Contactact Data **********************************
 contact <- MicrosoftBandContactDatum
 
 keep_contact <- c('MicrosoftBandContactDatum.DeviceId','MicrosoftBandContactDatum.Timestamp',
@@ -27,7 +29,7 @@ contact <- rename(contact, c('MicrosoftBandContactDatum.DeviceId' = 'ID',
 
 connected <- subset(contact, State == 2)
 
-
+# Heart Rate Data ***********************************
 heartrate <- MicrosoftBandHeartRateDatum
 
 keep_hr <- c('MicrosoftBandHeartRateDatum.HeartRate',
@@ -41,6 +43,6 @@ heartrate <- rename(heartrate, c('MicrosoftBandHeartRateDatum.DeviceId' = 'ID',
                              'MicrosoftBandHeartRateDatum.HeartRate' = 'Rate'))
 
 
-merged <- merge(heartrate, connected, by = c('ID', 'Time'))
+merged_hr <- merge(heartrate, connected, by = c('ID', 'Time'))
 
-merged <- subset(merged, abs(as.numeric('Time.y') - as.numeric('Time.x')) < 10000)
+
