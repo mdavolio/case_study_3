@@ -18,6 +18,8 @@ stress <- subset(survey, question == 'Fatigue and Stress', 'ID' != 'A3D42651-5E3
 # Contact Data **********************************
 contact <- MicrosoftBandContactDatum
 
+contact <- contact[contact$MicrosoftBandContactDatum.Month == 11,]
+
 keep_contact <- c('MicrosoftBandContactDatum.DeviceId','MicrosoftBandContactDatum.Timestamp',
                   'MicrosoftBandContactDatum.State')
 
