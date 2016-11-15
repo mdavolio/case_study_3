@@ -95,3 +95,26 @@ for (i in 1:nrow(stress)) {
   
   stress$hr_avg_twentyfour[i] = sum / count
 }
+
+
+# Battery
+for (i in 1:nrow(stress)) {
+  sum = 0
+  count=0
+  endtime = as.numeric(stress$Time[i])
+  begintime = as.numeric(stress$Time[i]) - (3600*24)
+  id = stress$ID[i]
+  for(j in 1:nrow(battery)){
+    if(battery$ID[j]==id){
+      if(begintime < as.numeric(battery$Time[j])
+         & as.numeric(battery$Time[j])< endtime){
+        sum = sum + battery$Life[j]
+        count = count + 1
+      }
+      
+    }
+    
+  }
+  
+  stress$battery_avg_twentyfour[i] = sum / count
+}
