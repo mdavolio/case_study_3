@@ -1,7 +1,7 @@
 library(randomForest)
 
 # Create randomized training/testing sets (75%/25%)
-set.seed(12)
+set.seed(14)
 training.indices = sample(1:nrow(stress), as.integer(nrow(stress) * 0.75))
 training.set = stress[training.indices,]
 testing.set = stress[-training.indices,]
@@ -18,12 +18,13 @@ rf.imputed = rfImpute(response ~ steps_ascended_avg_twentyfour + hr_avg_twentyfo
                       battery_avg_twentyfour + classroom + AverageSound24,
                       data = stress)
 
-set.seed(12)
 training.indices = sample(1:nrow(rf.imputed), as.integer(nrow(rf.imputed) * 0.75))
 training.set = rf.imputed[training.indices,]
 testing.set = rf.imputed[-training.indices,]
 
-rf.fit = randomForest(response ~ steps_ascended_avg_twentyfour + hr_avg_twentyfour + AverageTotalSteps24 + AverageGSR24 +AverageDistance24 +battery_avg_twentyfour, 
+rf.fit = randomForest(response ~ steps_ascended_avg_twentyfour + hr_avg_twentyfour 
+                      + AverageTotalSteps24 + AverageGSR24 +AverageDistance24 
+                      +battery_avg_twentyfour + classroom + AverageSound24, 
                       data = training.set, na.action = na.omit)
 
 # Predict testing data.
