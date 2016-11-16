@@ -199,3 +199,21 @@ datamining<- rename(datamining, c('PointOfInterestProximityDatum.Timestamp' = 'T
                                   'PointOfInterestProximityDatum.DeviceId' = 'ID'))
 
 datamining <- datamining[datamining$ID != 'A3D42651-5E3B-4459-AC8A-44B917A9C715',]
+
+
+### sound data *********************************
+sound <- SoundDatum
+
+sound <- sound[sound$SoundDatum.Month == 11,]
+
+keep_sound<- c('SoundDatum.Timestamp',
+               'SoundDatum.DeviceId',
+               'SoundDatum.Decibels')
+
+sound <- sound[keep_sound]
+
+sound <- rename(sound, c('SoundDatum.Timestamp' = 'Time',
+                         'SoundDatum.DeviceId' = 'ID',
+                         'SoundDatum.Decibels' = 'Decibels'))
+
+sound <- sound[sound$ID != 'A3D42651-5E3B-4459-AC8A-44B917A9C715',]
