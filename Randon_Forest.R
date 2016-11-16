@@ -8,10 +8,14 @@ testing.set = stress[-training.indices,]
 
 # Fit random forest (bagging can be achieved by setting mtry=p)
 
-stress$AverageGSR24[stress$AverageGSR24 == 0]<- NA
+# stress$AverageGSR24[stress$AverageGSR24 == 0]<- NA
+stress$classroom[stress$classroom == T] <- 1
+stress$classroom[stress$classroom == F] <- 0
 #Imputed
 stress$response<- as.factor(stress$response)
-rf.imputed = rfImpute(response ~ steps_ascended_avg_twentyfour + hr_avg_twentyfour + AverageTotalSteps24 + AverageGSR24 +AverageDistance24 +battery_avg_twentyfour,
+rf.imputed = rfImpute(response ~ steps_ascended_avg_twentyfour + hr_avg_twentyfour + 
+                      AverageTotalSteps24 + AverageGSR24 +AverageDistance24 +
+                      battery_avg_twentyfour + classroom + AverageSound24,
                       data = stress)
 
 set.seed(12)
