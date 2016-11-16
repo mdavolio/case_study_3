@@ -118,3 +118,26 @@ for (i in 1:nrow(stress)) {
   
   stress$battery_avg_twentyfour[i] = sum / count
 }
+
+
+# POI
+for (i in 1:nrow(stress)) {
+  count=0
+  endtime = as.numeric(stress$Time[i])
+  begintime = as.numeric(stress$Time[i]) - (3600*24)
+  id = stress$ID[i]
+  for(j in 1:nrow(datamining)){
+    if(datamining$ID[j]==id){
+      if(begintime < as.numeric(datamining$Time[j])
+         & as.numeric(datamining$Time[j])< endtime){
+         count = count + 1
+      }
+    }
+  }
+  if (count > 1){
+    stress$classroom[i] = TRUE
+  }
+  else{
+    stress$classroom[i] = FALSE
+  }
+}
