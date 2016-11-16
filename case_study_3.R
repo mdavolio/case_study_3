@@ -49,27 +49,67 @@ slda <- train(response ~ ., data = final.impute.df,
 
 
 # Final Model
-
 fit <- lda(response ~ steps_ascended_avg_twentyfour + AverageGSR24, data=final.impute.df, CV=TRUE)
 
+test.response <- list()
+for(i in 1: nrow(final.impute.df)){
+  testing = final.impute.df[i,]
+
+  test.response <- c(test.response, testing$response)
+  
+}
+fit$class
+unlist(test.response)
+
+mean.lda <- mean(fit$class==unlist(test.response))
+
+#making confidence interval
+n=34
+z=1.96
+
+sd <- (sum((as.numeric(fit$class)-unlist(test.response))^2)/n)^0.5
+
+mean.lda + z*sd/(n^0.5) #upper bound of CI is 0.9112308
+mean.lda - z*sd/(n^0.5) #lower bound of CI is 0.3828868
+
+### computing accuracy of leave one out
+acc.list.lda <- list()
+test.response <- list()
+predict.response <- list()
+for(i in 1: nrow(final.impute.df)){
+  testing = final.impute.df[i,]
+  training = final.impute.df[-i,]
+  fit <- lda(response ~ steps_ascended_avg_twentyfour + AverageGSR24, data=training)
+  
+  predict.response <- c(predict.response, predict(fit, testing)$class)
+  test.response <- c(test.response, testing$response)
+  
+  
+  
+}
+
+unlist(predict.response)
+unlist(test.response)
+mean(unlist(predict.response)==unlist(test.response))
+###Accuracy is 0.58823
 
 
 
 # calculate total percent correct
 
-ct <- table(final.impute.df$response, fit$class)
-diag(prop.table(ct, 1))
-sum(diag(prop.table(ct)))
+# ct <- table(final.impute.df$response, fit$class)
+# diag(prop.table(ct, 1))
+# sum(diag(prop.table(ct)))
 
 
 
 
 # Compute Confusion Matrix
 
-tab <- table(final.impute.df$response, fit$class)
-conCV1 <- rbind(tab[1, ]/sum(tab[1, ]), tab[2, ]/sum(tab[2, ]), tab[3, ]/sum(tab[3, ]), tab[4, ]/sum(tab[4, ]))
-dimnames(conCV1) <- list(Actual = c("1", "2", "3", "4"), "Predicted (cv)" = c("1","2", "3", "4"))
-print(round(conCV1, 3))
+# tab <- table(final.impute.df$response, fit$class)
+# conCV1 <- rbind(tab[1, ]/sum(tab[1, ]), tab[2, ]/sum(tab[2, ]), tab[3, ]/sum(tab[3, ]), tab[4, ]/sum(tab[4, ]))
+# dimnames(conCV1) <- list(Actual = c("1", "2", "3", "4"), "Predicted (cv)" = c("1","2", "3", "4"))
+# print(round(conCV1, 3))
 
 
 
