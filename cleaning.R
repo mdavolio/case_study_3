@@ -217,3 +217,55 @@ sound <- rename(sound, c('SoundDatum.Timestamp' = 'Time',
                          'SoundDatum.Decibels' = 'Decibels'))
 
 sound <- sound[sound$ID != 'A3D42651-5E3B-4459-AC8A-44B917A9C715',]
+
+### imputing missing values
+#save a dataframe in which if GSR data = 0, then make it NA
+library(randomForest)
+stressGSR = stress
+stressGSR$AverageGSR24[stressGSR$AverageGSR24 ==0 ] <- NA
+stressGSR$response<- as.factor(stressGSR$response)
+stressGSR$question<- NULL
+
+rf.imputed = rfImpute(response ~ steps_ascended_avg_twentyfour + hr_avg_twentyfour + AverageTotalSteps24 + AverageGSR24 +AverageDistance24 +battery_avg_twentyfour,
+                      data = stressGSR)
+
+impute1 <- rf.imputed
+impute2 <- rfImpute(response ~ steps_ascended_avg_twentyfour + hr_avg_twentyfour + AverageTotalSteps24 + AverageGSR24 +AverageDistance24 +battery_avg_twentyfour,
+                   data = stressGSR)
+list(impute2$AverageGSR24)
+list(impute1$AverageGSR24)
+
+impute1.m <- data.matrix(impute1, rownames.force = NA)
+my.list <- list()
+for(i in 1:100){
+  temp.impute <- rfImpute(response ~ steps_ascended_avg_twentyfour + hr_avg_twentyfour + AverageTotalSteps24 + AverageGSR24 +AverageDistance24 +battery_avg_twentyfour,
+                          data = stressGSR)
+  temp.impute.m <- data.matrix(temp.impute, rownames.force = NA)
+  my.list[[i]] <- temp.impute.m
+}
+my.list[[1]]
+
+final.impute <- Reduce("+", my.list) / length(my.list)
+final.impute.df <- as.data.frame(final.impute)
+
+### Megan's code
+final.impute.df$response<- as.factor(final.impute.df$response)
+final.impute.df.binary <- final.impute.df
+final.impute.df.binary$response==4 | final.impute.df.binary$response==5
+
+set.seed(12)
+training.indices = sample(1:nrow(final.impute.df), as.integer(nrow(final.impute.df) * 0.75))
+training.set = final.impute.df[training.indices,]
+testing.set = final.impute.df[-training.indices,]
+
+rf.fit = randomForest(response ~ steps_ascended_avg_twentyfour + hr_avg_twentyfour + AverageTotalSteps24 + AverageGSR24 +AverageDistance24 +battery_avg_twentyfour, 
+                      data = training.set, na.action = na.omit)
+
+# Predict testing data.
+predictions = predict(rf.fit, newdata = testing.set)
+
+# Output raw accuracy.
+sum(predictions == testing.set[,"response"]) / nrow(testing.set)
+
+# We can also get probabilities.
+predict(rf.fit, newdata = testing.set, type = "prob")
