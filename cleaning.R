@@ -167,7 +167,7 @@ merged_total_steps<- merge(total_steps, connected, by = c('ID', 'Time'))
 merged_total_steps <- merged_total_steps[merged_total_steps$ID != 'A3D42651-5E3B-4459-AC8A-44B917A9C715',]
 
 
-###batery Taken *********************************
+###batery life *********************************
 battery<- BatteryDatum
 
 battery <- battery[battery$BatteryDatum.Month == 11,]
@@ -183,3 +183,19 @@ battery<- rename(battery, c('BatteryDatum.DeviceId' = 'ID',
                             'BatteryDatum.Level' = 'Life'))
 
 battery <- battery[battery$ID != 'A3D42651-5E3B-4459-AC8A-44B917A9C715',]
+
+
+### classroom access *********************************
+datamining <- PointOfInterestProximityDatum
+
+datamining <- datamining[datamining$PointOfInterestProximityDatum.Month == 11,]
+
+keep_datamining<- c('PointOfInterestProximityDatum.Timestamp',
+                    'PointOfInterestProximityDatum.DeviceId')
+
+datamining <- datamining[keep_datamining]
+
+datamining<- rename(datamining, c('PointOfInterestProximityDatum.Timestamp' = 'Time',
+                                  'PointOfInterestProximityDatum.DeviceId' = 'ID'))
+
+datamining <- datamining[datamining$ID != 'A3D42651-5E3B-4459-AC8A-44B917A9C715',]
