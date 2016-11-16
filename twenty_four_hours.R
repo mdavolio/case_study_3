@@ -141,3 +141,21 @@ for (i in 1:nrow(stress)) {
     stress$classroom[i] = FALSE
   }
 }
+
+# Sound
+for (i in 1:nrow(stress)) {
+  count=0
+  total = 0
+  endtime = as.numeric(stress$Time[i])
+  begintime = as.numeric(stress$Time[i]) - (3600*24)
+  id = stress$ID[i]
+  for(j in 1:nrow(sound)){
+    if(sound$ID[j]==id){
+      if(begintime < as.numeric(sound$Time[j])
+         & as.numeric(sound$Time[j])< endtime)
+        total = total + sound$Decibels
+      count = count +1
+    }
+  }
+  stress$AverageSound24[i] = total/count
+}
