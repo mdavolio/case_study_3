@@ -120,11 +120,11 @@ for (i in 1:nrow(stress)) {
 }
 
 
-# POI
+# POI - Set to 6 hour window
 for (i in 1:nrow(stress)) {
   count=0
   endtime = as.numeric(stress$Time[i])
-  begintime = as.numeric(stress$Time[i]) - (3600*24)
+  begintime = as.numeric(stress$Time[i]) - (3600 * 6)
   id = stress$ID[i]
   for(j in 1:nrow(datamining)){
     if(datamining$ID[j]==id){
