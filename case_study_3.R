@@ -8,6 +8,7 @@ library(caret)
 library(e1071)
 library(ROCR)
 library(pROC)
+library(data.table)
 
 
 band.contact.filtered <- subset(MicrosoftBandContactDatum, MicrosoftBandContactDatum.State ==2)
@@ -97,31 +98,39 @@ mean(unlist(predict.response)==unlist(test.response))
 
 # calculate total percent correct
 
-# ct <- table(final.impute.df$response, fit$class)
-# diag(prop.table(ct, 1))
-# sum(diag(prop.table(ct)))
+ct <- table(final.impute.df$response, fit$class)
+diag(prop.table(ct, 1))
+sum(diag(prop.table(ct)))
 
 
 
 
 # Compute Confusion Matrix
 
-# tab <- table(final.impute.df$response, fit$class)
-# conCV1 <- rbind(tab[1, ]/sum(tab[1, ]), tab[2, ]/sum(tab[2, ]), tab[3, ]/sum(tab[3, ]), tab[4, ]/sum(tab[4, ]))
-# dimnames(conCV1) <- list(Actual = c("1", "2", "3", "4"), "Predicted (cv)" = c("1","2", "3", "4"))
-# print(round(conCV1, 3))
+tab <- table(final.impute.df$response, fit$class)
+conCV1 <- rbind(tab[1, ]/sum(tab[1, ]), tab[2, ]/sum(tab[2, ]), tab[3, ]/sum(tab[3, ]), tab[4, ]/sum(tab[4, ]))
+dimnames(conCV1) <- list(Actual = c("1", "2", "3", "4"), "Predicted (cv)" = c("1","2", "3", "4"))
+print(round(conCV1, 3))
 
 
 
+oldnames <- c('steps_ascended_avg_twentyfour','AverageGSR24')
+newnames <- c('Average_Steps_Ascended', 'Average_GSR')
+setnames(final.impute.df, oldnames, newnames)
 
 # Scatter plot with color coding by group
 
-pairs(final.impute.df[c("steps_ascended_avg_twentyfour","AverageGSR24")], main="My Title ", pch=22, 
+pairs(final.impute.df[c("Average Steps Ascended","Average GSR")], main="Scatter Plot with Color-Coded Response Groups", pch=22, 
       bg=c("red", "yellow", "blue", "pink")[unclass(final.impute.df$response)])
+par(xpd=TRUE)
+legend(-0.03, 1.01, as.vector(unique(final.impute.df$response)),  
+       fill=c("blue", "yellow", "pink", "red"))
 
 
 
 # Partition Plot
 
-partimat(response~ steps_ascended_avg_twentyfour+ AverageGSR24,data=final.impute.df,method="lda")
+partimat(response~ Average_Steps_Ascended+ Average_GSR,data=final.impute.df,method="lda", main = "Partition Plot")
 
+
+dev.off()
